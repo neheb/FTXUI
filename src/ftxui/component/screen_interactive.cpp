@@ -466,7 +466,7 @@ void ScreenInteractive::Install() {
   }
 
   disable({
-      DECMode::kCursor,
+      //DECMode::kCursor,
       DECMode::kLineWrap,
   });
 
@@ -651,6 +651,10 @@ void ScreenInteractive::Draw(Component component) {
   if (dy != 0) {
     set_cursor_position += "\x1B[" + std::to_string(dy) + "A";
     reset_cursor_position += "\x1B[" + std::to_string(dy) + "B";
+  }
+  if (cursor_.shape != Cursor::Hidden) {
+    set_cursor_position += "\033[" + std::to_string(int(cursor_.shape)) + " q";
+    reset_cursor_position += "\033[0 q";
   }
 }
 
